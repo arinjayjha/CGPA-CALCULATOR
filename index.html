@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wildlife Quiz</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            text-align: center;
+            color: #333;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        body.dark-mode {
+            background-color: #333;
+            color: #f5f5f5;
+        }
+
+        .quiz-container {
+            width: 80%;
+            max-width: 600px;
+            margin: auto;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        body.dark-mode .quiz-container {
+            background-color: #444;
+        }
+
+        .question {
+            font-weight: bold;
+        }
+
+        .options {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .options li {
+            margin: 10px 0;
+        }
+
+        .options button {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        body.dark-mode .options button {
+            border: 1px solid #555;
+            background-color: #666;
+            color: #f5f5f5;
+        }
+
+        .correct {
+            background-color: #d4edda;
+            /* Light green for correct answers in light mode */
+            color: #155724;
+            /* Dark text for readability */
+        }
+
+        body.dark-mode .correct {
+            color: #ffffff;
+            /* White text for contrast */
+        }
+
+        .incorrect {
+            background-color: #f8d7da;
+            /* Light red for incorrect answers in light mode */
+            color: #721c24;
+            /* Dark text for readability */
+        }
+
+        body.dark-mode .incorrect {
+            color: #ffffff;
+            /* White text for contrast */
+        }
+
+        .incorrect::after {
+            content: ' ✖';
+            /* Red cross for incorrect answers */
+            color: #c82333;
+            /* Darker red for contrast */
+        }
+
+        .correct::after {
+            content: ' ✔';
+            /* Green tick for correct answers */
+            color: #28a745;
+            /* Green for contrast */
+        }
+
+        .result {
+            margin-top: 20px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .toggle-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .toggle-btn:hover {
+            background-color: #0056b3;
+        }
+
+        body.dark-mode .toggle-btn {
+            background-color: #555;
+            color: #fff;
+        }
+
+        body.dark-mode .toggle-btn:hover {
+            background-color: #777;
+        }
+
+        footer {
+            margin-top: 20px;
+            padding: 10px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        body.dark-mode footer {
+            color: #ccc;
+            /* Lighter text for dark mode */
+        }
+    </style>
+</head>
+
+<body>
+
+    <button class="toggle-btn" id="darkModeToggle">Toggle Dark Mode</button>
+
+    <div class="quiz-container">
+        <h1>Wildlife Ecology Quiz</h1>
+        <div id="question-number"></div> <!-- New div for question number -->
+        <div id="quiz"></div>
+        <div class="result" id="result"></div>
+    </div>
+
+    <footer>
+        Created by - Arinjay<br>
+        If any corrections, contact - <a href="mailto:arinjayjh12@gmail.com">arinjayjh12@gmail.com</a>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        // Dark mode toggle functionality
+        const toggleButton = document.getElementById("darkModeToggle");
+        toggleButton.addEventListener("click", () => {
+            document.body.classList.toggle("dark-mode");
+        });
+    </script>
+</body>
+
+</html>
