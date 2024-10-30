@@ -4,173 +4,147 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wildlife Quiz</title>
+    <title>CGPA Calculator</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f5f5f5;
-            text-align: center;
-            color: #333;
-            transition: background-color 0.3s, color 0.3s;
+            font-family: 'Arial', sans-serif;
+            background-color: #e9ecef;
+            margin: 0;
+            padding: 20px;
         }
 
-        body.dark-mode {
-            background-color: #333;
-            color: #f5f5f5;
-        }
-
-        .quiz-container {
-            width: 80%;
+        .container {
             max-width: 600px;
             margin: auto;
-            background-color: #fff;
+            background: white;
             padding: 20px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            border-radius: 5px;
-            transition: background-color 0.3s;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            transition: box-shadow 0.3s ease;
         }
 
-        body.dark-mode .quiz-container {
-            background-color: #444;
+        .container:hover {
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
         }
 
-        .question {
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin: 10px 0 5px;
             font-weight: bold;
+            color: #495057;
         }
 
-        .options {
-            list-style-type: none;
-            padding: 0;
-        }
-
-        .options li {
-            margin: 10px 0;
-        }
-
-        .options button {
-            width: 100%;
+        input {
+            width: calc(100% - 22px);
             padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
             font-size: 16px;
-            cursor: pointer;
-            border-radius: 5px;
-            border: 1px solid #ddd;
-            transition: background-color 0.3s, color 0.3s;
+            transition: border-color 0.3s ease;
         }
 
-        body.dark-mode .options button {
-            border: 1px solid #555;
-            background-color: #666;
-            color: #f5f5f5;
+        input:focus {
+            border-color: #28a745;
+            outline: none;
         }
 
-        .correct {
-            background-color: #d4edda;
-            /* Light green for correct answers in light mode */
-            color: #155724;
-            /* Dark text for readability */
-        }
-
-        body.dark-mode .correct {
-            color: #ffffff;
-            /* White text for contrast */
-        }
-
-        .incorrect {
-            background-color: #f8d7da;
-            /* Light red for incorrect answers in light mode */
-            color: #721c24;
-            /* Dark text for readability */
-        }
-
-        body.dark-mode .incorrect {
-            color: #ffffff;
-            /* White text for contrast */
-        }
-
-        .incorrect::after {
-            content: ' ✖';
-            /* Red cross for incorrect answers */
-            color: #c82333;
-            /* Darker red for contrast */
-        }
-
-        .correct::after {
-            content: ' ✔';
-            /* Green tick for correct answers */
-            color: #28a745;
-            /* Green for contrast */
-        }
-
-        .result {
-            margin-top: 20px;
-            font-size: 20px;
-            font-weight: bold;
-        }
-
-        .toggle-btn {
-            position: absolute;
-            top: 20px;
-            right: 20px;
+        button {
+            display: inline-block;
             padding: 10px 15px;
+            background-color: #28a745;
+            color: white;
             border: none;
             border-radius: 5px;
-            background-color: #007bff;
-            color: #fff;
             cursor: pointer;
-            transition: background-color 0.3s;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
         }
 
-        .toggle-btn:hover {
-            background-color: #0056b3;
+        button:hover {
+            background-color: #218838;
         }
 
-        body.dark-mode .toggle-btn {
-            background-color: #555;
-            color: #fff;
-        }
-
-        body.dark-mode .toggle-btn:hover {
-            background-color: #777;
-        }
-
-        footer {
+        #result {
             margin-top: 20px;
-            padding: 10px;
-            font-size: 14px;
-            color: #666;
+            font-size: 20px;
+            color: #333;
+            text-align: center;
+            font-weight: bold;
         }
 
-        body.dark-mode footer {
-            color: #ccc;
-            /* Lighter text for dark mode */
+        .error {
+            color: red;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        #chartContainer {
+            margin-top: 30px;
+        }
+
+        canvas {
+            max-width: 100%;
+        }
+
+        .feature-option {
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        #cgpaForm,
+        #instantCgpaForm {
+            display: none;
         }
     </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="script.js" defer></script>
 </head>
 
 <body>
+    <div class="container">
+        <h1>CGPA Calculator</h1>
+        <div class="feature-option">
+            <button onclick="showSemesterWise()">Calculate Semester-wise CGPA</button>
+            <button onclick="showInstantCgpa()">Instant CGPA</button>
+        </div>
 
-    <button class="toggle-btn" id="darkModeToggle">Toggle Dark Mode</button>
+        <form id="cgpaForm">
+            <div id="semesterInputs">
+                <div class="semester">
+                    <label for="credits1">Credits for Semester 1:</label>
+                    <input type="number" id="credits1" max="50" required>
+                    <label for="gpa1">GPA for Semester 1:</label>
+                    <input type="number" id="gpa1" step="0.01" max="10" required>
+                </div>
+            </div>
+            <button type="button" onclick="addSemester()" id="addSemesterButton">Add Semester</button>
+            <button type="submit">Calculate CGPA</button>
+        </form>
 
-    <div class="quiz-container">
-        <h1>Wildlife Ecology Quiz</h1>
-        <div id="question-number"></div> <!-- New div for question number -->
-        <div id="quiz"></div>
-        <div class="result" id="result"></div>
+        <form id="instantCgpaForm">
+            <label for="previousCgpa">CGPA till previous semester:</label>
+            <input type="number" id="previousCgpa" step="0.01" max="10" required>
+            <label for="creditsCompleted">Credits Completed till previous semester:</label>
+            <input type="number" id="creditsCompleted" max="300" required>
+            <label for="currentGpa">Current Semester GPA:</label>
+            <input type="number" id="currentGpa" step="0.01" max="10" required>
+            <label for="currentCredits">Current Semester Credits:</label>
+            <input type="number" id="currentCredits" max="50" required>
+            <button type="submit">Calculate Instant CGPA</button>
+        </form>
+
+        <div id="result"></div>
+        <div id="chartContainer">
+            <canvas id="cgpaChart"></canvas>
+        </div>
     </div>
-
-    <footer>
-        Created by - Arinjay<br>
-        If any corrections, contact - <a href="mailto:arinjayjh12@gmail.com">arinjayjh12@gmail.com</a>
-    </footer>
-
-    <script src="script.js"></script>
-    <script>
-        // Dark mode toggle functionality
-        const toggleButton = document.getElementById("darkModeToggle");
-        toggleButton.addEventListener("click", () => {
-            document.body.classList.toggle("dark-mode");
-        });
-    </script>
 </body>
 
 </html>
